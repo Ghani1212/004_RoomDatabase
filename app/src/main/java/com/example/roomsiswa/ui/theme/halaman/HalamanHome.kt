@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Card
@@ -29,45 +31,62 @@ object DestinasiHome : DestinasiNavigasi {
     override val route = "home"
     override val titleRes = R.string.app_name
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navigateToItemEntry: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory)
-){
-    @Composable
-    fun DataSiswa(
-        siswa: Siswa,
-        modifier: Modifier = Modifier
+) {
+}
+@Composable
+fun ListSiswa(
+    itemSiswa: List<Siswa>,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(modifier = Modifier) {
+        items(items = itemSiswa, key = { it.id }) { person ->
+            DataSiswa(
+                siswa = person,
+                modifier = Modifier
+                    .padding(dimensionResource(id = R.dimen.padding_small))
+            )
+        }
+    }
+}
+
+@Composable
+fun DataSiswa(
+    siswa: Siswa,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier,
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Card(
-            modifier = modifier,
-            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        Column(
+            modifier = modifier.padding(dimensionResource(id = R.dimen.padding_large)),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
         ) {
-            Column(
-                modifier = modifier.padding(dimensionResource(id = R.dimen.padding_large)),
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
+            Row(
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = siswa.nama,
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                    Spacer(Modifier.weight(1f))
-                    Icon(imageVector = Icons.Default.Phone, contentDescription = null)
-                    Text(
-                        text = siswa.telpon,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                }
                 Text(
-                    text = siswa.alamat,
+                    text = siswa.nama,
+                    style = MaterialTheme.typography.titleLarge
+                )
+                Spacer(Modifier.weight(1f))
+                Icon(imageVector = Icons.Default.Phone, contentDescription = null)
+                Text(
+                    text = siswa.telpon,
                     style = MaterialTheme.typography.titleMedium
                 )
             }
+            Text(
+                text = siswa.alamat,
+                style = MaterialTheme.typography.titleMedium
+            )
         }
     }
 }
