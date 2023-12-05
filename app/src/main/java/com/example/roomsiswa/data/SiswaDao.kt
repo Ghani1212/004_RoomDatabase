@@ -19,7 +19,7 @@ interface SiswaDao {
     @Delete
     suspend fun delete(siswa: Siswa)
 
-    @Query("Select * from tblSiswa WHERE id = id")
+    @Query("Select * from tblSiswa WHERE id = :id")
     fun getSiswa(id: Int): Flow<Siswa>
 
     @Query("Select * from tblSiswa ORDER BY nama ASC")
