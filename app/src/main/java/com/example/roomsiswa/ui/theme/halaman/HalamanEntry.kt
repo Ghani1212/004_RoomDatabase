@@ -22,13 +22,15 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomsiswa.R
+import com.example.roomsiswa.model.DetailSiswa
 import com.example.roomsiswa.model.EntryViewModel
 import com.example.roomsiswa.model.PenyediaViewModel
+import com.example.roomsiswa.model.UIStateSiswa
 import com.example.roomsiswa.navigasi.DestinasiNavigasi
 import com.example.roomsiswa.navigasi.SiswaTopAppBar
 import kotlinx.coroutines.launch
 
-object DestinasiEntry: DestinasiNavigasi {
+object DestinasiEntry : DestinasiNavigasi {
     override val route = "item_entry"
     override val titleRes = R.string.entry_siswa
 }
@@ -68,11 +70,10 @@ fun EntrySiswaScreen(
         )
     }
 }
-
 @Composable
 fun EntrySiswaBody(
-    uiStateSiswa: EntryViewModel.UIStateSiswa,
-    onSiswaValueChange: (EntryViewModel.DetailSiswa) -> Unit,
+    uiStateSiswa: UIStateSiswa,
+    onSiswaValueChange: (DetailSiswa) -> Unit,
     onSaveClick: () -> Unit,
     modifier: Modifier
 ) {
@@ -95,41 +96,47 @@ fun EntrySiswaBody(
         }
     }
 }
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormInputSiswa(
-    detailSiswa: EntryViewModel.DetailSiswa,
+    detailSiswa: DetailSiswa,
     modifier: Modifier = Modifier,
-    onValueChange: (EntryViewModel.DetailSiswa) -> Unit = {},
+    onValueChange: (DetailSiswa) -> Unit = {},
     enabled: Boolean = true
 ) {
     Column(
         modifier = Modifier,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ) {
-        OutlinedTextField(value = detailSiswa.nama,
-            onValueChange = {onValueChange(detailSiswa.copy(nama = it))},
-            label = { Text(stringResource(id = R.string.nama))},
+        OutlinedTextField(
+            value = detailSiswa.nama,
+            onValueChange = { onValueChange(detailSiswa.copy(nama = it)) },
+            label = { Text(stringResource(id = R.string.nama)) },
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true
         )
-        OutlinedTextField(value = detailSiswa.alamat,
-            onValueChange = {onValueChange(detailSiswa.copy(alamat = it))},
-            label = { Text(stringResource(id = R.string.alamat))},
+        OutlinedTextField(
+            value = detailSiswa.alamat,
+            onValueChange = { onValueChange(detailSiswa.copy(alamat = it)) },
+            label = { Text(stringResource(id = R.string.alamat)) },
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true
         )
-        OutlinedTextField(value = detailSiswa.telpon,
-            onValueChange = {onValueChange(detailSiswa.copy(telpon = it))},
-            label = { Text(stringResource(id = R.string.telpon))},
+        OutlinedTextField(
+            value = detailSiswa.telpon,
+            onValueChange = { onValueChange(detailSiswa.copy(telpon = it)) },
+            label = { Text(stringResource(id = R.string.telpon)) },
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true
         )
-        if (enabled){
-            Text(stringResource(id = R.string.required_field),
+        if (enabled) {
+            Text(
+                stringResource(id = R.string.required_field),
                 modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium))
             )
         }
