@@ -20,10 +20,10 @@ import androidx.navigation.navArgument
 import com.example.roomsiswa.R
 import com.example.roomsiswa.ui.theme.halaman.DestinasiEntry
 import com.example.roomsiswa.ui.theme.halaman.DestinasiHome
-import com.example.roomsiswa.ui.theme.halaman.DetailsDestination
-import com.example.roomsiswa.ui.theme.halaman.DetailScreen
 import com.example.roomsiswa.ui.theme.halaman.EntrySiswaScreen
 import com.example.roomsiswa.ui.theme.halaman.HomeScreen
+import com.example.roomsiswaa.ui.theme.halaman.DetailsDestination
+import com.example.roomsiswaa.ui.theme.halaman.DetailsScreen
 
 @Composable
 fun SiswaApp(navController: NavHostController = rememberNavController()) {
@@ -86,7 +86,7 @@ fun HostNavigasi(
             })
         ) {
 
-            DetailScreen(
+            DetailsScreen(
                 navigateBack = { navController.popBackStack() },
                 navigateToEditItem = {
                     //navController.navigate("${ItemEditDestination.route}/$it")

@@ -1,4 +1,4 @@
-package com.example.roomsiswa.ui.theme.halaman
+package com.example.roomsiswaa.ui.theme.halaman
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
@@ -40,6 +40,8 @@ import com.example.roomsiswa.model.PenyediaViewModel
 import com.example.roomsiswa.model.toSiswa
 import com.example.roomsiswa.navigasi.DestinasiNavigasi
 import com.example.roomsiswa.navigasi.SiswaTopAppBar
+import com.example.roomsiswa.ui.theme.halaman.DetailsViewModel
+import com.example.roomsiswa.ui.theme.halaman.ItemDetailsUiState
 import kotlinx.coroutines.launch
 
 object DetailsDestination : DestinasiNavigasi {
@@ -51,14 +53,14 @@ object DetailsDestination : DestinasiNavigasi {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(
+fun DetailsScreen(
     navigateToEditItem: (Int) -> Unit,
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: DetailsViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
     val uiState = viewModel.uiState.collectAsState()
-    val coroitineScop = rememberCoroutineScope()
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             SiswaTopAppBar(
@@ -71,6 +73,7 @@ fun DetailScreen(
                 onClick = { navigateToEditItem(uiState.value.detailSiswa.id) },
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
+
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,
@@ -82,9 +85,9 @@ fun DetailScreen(
         ItemDetailsBody(
             itemDetailsUiState = uiState.value,
             onDelete = {
-                coroitineScop.launch {
+                coroutineScope.launch {
                     viewModel.deleteItem()
-                    navigateBack
+                    navigateBack()
                 }
             },
             modifier = Modifier
@@ -92,7 +95,6 @@ fun DetailScreen(
                 .verticalScroll(rememberScrollState()),
 
             )
-
     }
 }
 
@@ -145,48 +147,36 @@ fun ItemDetails(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(
-                    dimensionResource(
-                        id = R.dimen.padding_medium
-                    )
-                ),
-            verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(
-                    id = R.dimen.padding_medium
-                )
-            )
+                .padding(dimensionResource(id = R.dimen.padding_medium)),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
         ) {
             ItemDetailsRow(
                 labelResID = R.string.nama,
                 itemDetail = siswa.nama,
                 modifier = Modifier.padding(
-                    horizontal = dimensionResource(
-                        id = R.dimen.padding_medium
-                    )
+                    horizontal = dimensionResource(id = R.dimen.padding_medium)
                 )
             )
             ItemDetailsRow(
                 labelResID = R.string.alamat,
                 itemDetail = siswa.alamat,
                 modifier = Modifier.padding(
-                    horizontal = dimensionResource(
-                        id = R.dimen.padding_medium
-                    )
+                    horizontal = dimensionResource(id = R.dimen.padding_medium)
                 )
             )
             ItemDetailsRow(
                 labelResID = R.string.telpon,
                 itemDetail = siswa.telpon,
                 modifier = Modifier.padding(
-                    horizontal = dimensionResource(
-                        id = R.dimen.padding_medium
-                    )
+                    horizontal = dimensionResource(id = R.dimen.padding_medium)
                 )
             )
+
         }
     }
-}
 
+
+}
 
 @Composable
 private fun ItemDetailsRow(
@@ -203,14 +193,13 @@ private fun ItemDetailsRow(
 private fun DeleteConfirmationDialog(
     onDeleteConfirm: () -> Unit, onDeleteCancel: () -> Unit, modifier: Modifier = Modifier
 ) {
-    AlertDialog(onDismissRequest = { /* Do nothing*/ },
+    AlertDialog(onDismissRequest = { /* Do nothing */ },
         title = { Text(stringResource(R.string.attention)) },
         text = { Text(stringResource(R.string.delete)) },
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = onDeleteCancel) {
                 Text(text = stringResource(R.string.no))
-
             }
         },
         confirmButton = {
